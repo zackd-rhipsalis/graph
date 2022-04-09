@@ -1,0 +1,16 @@
+{
+  "name": "get_ip",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ip.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ip.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
