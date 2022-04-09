@@ -9,7 +9,7 @@ app.get("/", (req, res) => {
   const str = (ip.match(/[^0-9\.]/)) ? ip.replace(/[^0-9\.]/g, "") : ip;
   console.log(`IP: ${str}`);
   resData.push(str);
-  res.send(JSON.stringify(resData));
+  res.send(JSON.stringify(resData[0]));
 });
 
 app.listen(port, () => console.log("listening on " + port));
