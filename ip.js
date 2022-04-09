@@ -7,7 +7,7 @@ app.get("/", (req, res) => {
   const resData = [];
   const ip = req.ip || req.headers['x-forworded-for'] || req.connection.remoteAddress || undefined;
   const str = (ip.match(/[^0-9\.]/)) ? ip.replace(/[^0-9\.]/g, "") : ip;
-  console.log(str);
+  console.log(`IP: ${ip} plainly: ${str}`);
   resData.push(str);
   res.send(JSON.stringify(resData));
 });
