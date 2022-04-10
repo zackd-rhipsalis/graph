@@ -24,7 +24,6 @@ app
   .use(express.urlencoded({
     extended: true
   }))
-  .use('/', express.static('public'))
   .use(express.json())
   .post("/", (req, res) => {
     name = req.body.name;
