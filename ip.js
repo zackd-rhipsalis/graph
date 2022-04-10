@@ -5,8 +5,8 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   const resData = [];
-  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0';
-  const str = (ip.match(/[^0-9\.]/g)) ? ip.replace(/[^0-9\.]/g, "") : ip;
+  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
+  str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
   console.log(`IP: ${str}`);
   resData.push(str);
   res.send(JSON.stringify(resData[0]));
