@@ -39,11 +39,10 @@ app
     console.log(`IP: ${str}`);
     res.sendStatus(200);
   })
-  .get("/load", (req, res) => res.sendStatus(200))
-  .post("/load", (req, res) => {
-    name = name || 'null';
-    IP = IP || 'null';
-    res.send(JSON.stringify({name: name, ip: IP}));
+  .get("/load", (req, res) => {
+    const n = name || 'null';
+    const i = IP || 'null';
+    res.send(JSON.stringify({name: n, ip: i}));
   })
   .listen(port, () => console.log("listening on " + port))
 ;
