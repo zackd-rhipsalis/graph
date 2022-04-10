@@ -1,6 +1,5 @@
 const port = process.env.PORT || 3000;
 let name, url, IP;
-const bodyParser = require("body-parser");
 const express = require("express");
 
 const allowCrossDomain = function(req, res, next) {
@@ -20,13 +19,13 @@ const allowCrossDomain = function(req, res, next) {
 const app = express();
 
 app
-.use(bodyParser.urlencoded({
-  extended: true
-}))
-.use('/', express.static('public'))
-.use(allowCrossDomain)
-.use(bodyParser.json())
-.use(express.json())
+  .use(allowCrossDomain)
+  .use(express.urlencoded({
+    extended: true
+  }))
+  .use('/', express.static('public'))
+  .use(express.json())
+  .use(express.json())
   .post("/", (req, res) => {
     name = req.body.name;
     url = req.body.url;
