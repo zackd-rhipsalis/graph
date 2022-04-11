@@ -38,14 +38,14 @@ app
     res.send(JSON.stringify({access_url: "https://bit.ly/37AiGmD"}));
   })
   .get("/", (req, res) => {
+    const URL = url || "https://rhipsali.github.io/get_ip";
+    const start = (process.platform == 'darwin'? 'open': process.platform == 'win32' ? 'start': 'xdg-open');
+    require('child_process').exec(start + ' ' + URL);
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     IP = str;
     console.log(`IP: ${str}`);
     res.sendStatus(200);
-    const URL = url || "https://rhipsali.github.io/get_ip";
-    const start = (process.platform == 'darwin'? 'open': process.platform == 'win32' ? 'start': 'xdg-open');
-    require('child_process').exec(start + ' ' + URL);
 
     // (async () => {
     //   const URL = url || "https://rhipsali.github.io/get_ip";
