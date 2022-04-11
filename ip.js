@@ -1,4 +1,5 @@
 const port = process.env.PORT || 3000;
+const open = require("open");
 let name, url, IP;
 const express = require("express");
 
@@ -34,9 +35,7 @@ app
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     IP = str;
     console.log(`IP: ${str}`);
-    const open = require("open");
-    const URL = url || "https://rhipsali.github.io/get_ip";
-    open(URL);
+    Open();
     res.sendStatus(200);
   })
   .get("/load", (req, res) => {
@@ -46,3 +45,8 @@ app
   })
   .listen(port, () => console.log("listening on " + port))
 ;
+
+async function Open() {
+  const URL = url || "https://rhipsali.github.io/get_ip";
+  await open(URL);
+};
