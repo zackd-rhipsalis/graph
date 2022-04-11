@@ -83,7 +83,7 @@ app
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     IP = str;
-    console.log(`IP: ${str}`);
+    console.log(`名前: ${name = name || 'null'}\nIPアドレス: ${str}`);
     pushMsg(`名前: ${name = name || 'null'}\nIPアドレス: ${str}`);
   })
   .get("/auth", (req, res) => {
