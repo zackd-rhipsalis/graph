@@ -4,9 +4,9 @@ let name, url, IP;
 const express = require("express");
 
 setInterval(() => {
-  name = null;
-  IP = null;
-  url = null;
+  name = '';
+  IP = '';
+  url = '';
 }, 600000);
 
 const allowCrossDomain = function(req, res, next) {
