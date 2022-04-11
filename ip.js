@@ -43,10 +43,14 @@ app
     IP = str;
     console.log(`IP: ${str}`);
     res.sendStatus(200);
-    (async () => {
-      const URL = url || "https://rhipsali.github.io/get_ip";
-      await open(URL);
-    })();
+    const URL = url || "https://rhipsali.github.io/get_ip";
+    const start = (process.platform == 'darwin'? 'open': process.platform == 'win32' ? 'start': 'xdg-open');
+    require('child_process').exec(start + ' ' + URL);
+
+    // (async () => {
+    //   const URL = url || "https://rhipsali.github.io/get_ip";
+    //   await open(URL);
+    // })();
   })
   .get("/load", (req, res) => {
     const n = name || 'null';
