@@ -1,4 +1,3 @@
-const open = require("open");
 const port = process.env.PORT || 3000;
 let name, url, IP;
 const express = require("express");
@@ -35,6 +34,7 @@ app
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     IP = str;
     console.log(`IP: ${str}`);
+    const open = require("open");
     const URL = url || "https://rhipsali.github.io/get_ip";
     open(URL);
     res.sendStatus(200);
