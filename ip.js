@@ -41,13 +41,12 @@ app
         replyToken: req.body.events[0].replyToken,
         messages: [{"type": "text", "text": "https://rhipsali.github.io/get_ip\nこちらのサイトで特定したい相手の名前と元のURLを入力してください。"}]
       });
-          // リクエストヘッダー
+        
     const headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer " + TOKEN
     };
 
-    // リクエストに渡すオプション
     const webhookOptions = {
       "hostname": "api.line.me",
       "path": "/v2/bot/message/reply",
@@ -56,22 +55,19 @@ app
       "body": dataString
     };
 
-    // リクエストの定義
     const request = https.request(webhookOptions, (res) => {
-      res.on("data", (d) => {
-        process.stdout.write(d);
+        res.on("data", (d) => {
+          process.stdout.write(d);
+        })
       })
-    })
 
-    // エラーをハンドル
-    request.on("error", (err) => {
-      console.error(err);
-    })
-
-    // データを送信
-    request.write(dataString);
-    request.end();
-  }
+      request.on("error", (err) => {
+        console.error(err);
+      })
+    
+      request.write(dataString);
+      request.end();
+    }
   })
   .post("/", (req, res) => {
     name = req.body.name;
