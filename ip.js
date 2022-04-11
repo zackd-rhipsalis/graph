@@ -3,6 +3,12 @@ const open = require("open");
 let name, url, IP;
 const express = require("express");
 
+setInterval(() => {
+  name = null;
+  IP = null;
+  url = null;
+}, 600000);
+
 const allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -16,6 +22,7 @@ const allowCrossDomain = function(req, res, next) {
     next()
   }
 };
+
 
 const app = express();
 
