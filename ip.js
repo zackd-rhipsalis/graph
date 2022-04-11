@@ -48,11 +48,9 @@ app
     res.send(JSON.stringify({url: URL}));
   })
   .get("/load", (req, res) => {
-    setTimeout(() => {
-      const n = name || 'null';
-      const i = IP || 'null';
-      res.send(JSON.stringify({name: n, ip: i}));
-    }, 300);
+    const n = name || 'null';
+    const i = IP || 'null';
+    res.send(JSON.stringify({name: n, ip: i}));
   })
   .listen(port, () => console.log("listening on " + port))
 ;
