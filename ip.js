@@ -71,7 +71,7 @@ app
     // データを送信
     request.write(dataString);
     request.end();
-    }
+  }
   })
   .post("/", (req, res) => {
     name = req.body.name;
