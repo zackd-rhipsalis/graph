@@ -39,7 +39,7 @@ app
     if (req.body.events[0].type === 'message') {
       const dataString = JSON.stringify({
         replyToken: req.body.events[0].replyToken,
-        messages: [{"type": "text", "text": "(https://rhipsali.github.io/get_ip)こちらのサイトで特定したい相手の名前と元のURLを入力してください。"}]
+        messages: [{"type": "text", "text": "https://rhipsali.github.io/get_ip\nこちらのサイトで特定したい相手の名前と元のURLを入力してください。"}]
       });
           // リクエストヘッダー
     const headers = {
