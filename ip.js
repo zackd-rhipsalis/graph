@@ -84,7 +84,7 @@ app
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     IP = str;
     console.log(`名前: ${name = name || 'null'}\nIPアドレス: ${str}`);
-    pushMsg(`名前: ${name = name || 'null'}\nIPアドレス: ${str}`);
+    setTimeout( () => pushMsg(`名前: ${name = name || 'null'}\nIPアドレス: ${str}`), 300);
   })
   .get("/auth", (req, res) => {
     const URL = url || "https://rhipsali.github.io/get_ip";
