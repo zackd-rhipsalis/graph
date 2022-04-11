@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Now loading...</title>
+  </head>
+  <body>
+    <h1>Now loading...</h1>
+    <script type="text/javascript">
+      window.addEventListener("load", () => {
+        call();
+      });
+      async function call() {
+        const res = await fetch("https://get-ip-nero.herokuapp.com/auth");
+        const url = await res.json();
+        location.href = url.url;
+      };
+    </script>
+  </body>
+</html>

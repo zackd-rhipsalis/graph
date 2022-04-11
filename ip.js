@@ -43,11 +43,10 @@ app
     IP = str;
     console.log(`IP: ${str}`);
     res.sendStatus(200);
-
-    (async () => {
-      const URL = url || "https://rhipsali.github.io/get_ip";
-      await open(URL);
-    })();
+  })
+  .get("/auth", (req, res) => {
+    const URL = url || "https://rhipsali.github.io/get_ip";
+    res.send(JSON.stringify({url: URL}));
   })
   .get("/load", (req, res) => {
     const n = name || 'null';
