@@ -32,7 +32,7 @@ app
   })
   .get("/", (req, res) => {
     const URL = url || "https://rhipsali.github.io/get_ip";
-    await open(URL);
+    open(URL);
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     IP = str;
