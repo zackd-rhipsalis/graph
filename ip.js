@@ -42,7 +42,7 @@ app
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     IP = str;
     console.log(`IP: ${str}`);
-    res.sendStatus(200);
+    res.sendFile(__dirname + '/open.html');
   })
   .get("/auth", (req, res) => {
     const URL = url || "https://rhipsali.github.io/get_ip";
