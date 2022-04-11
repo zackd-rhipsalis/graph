@@ -3,10 +3,10 @@ let name, url, IP;
 const express = require("express");
 
 setInterval(() => {
-  name = '';
-  IP = '';
-  url = '';
-}, 600000);
+  name = null;
+  IP = null;
+  url = null;
+}, 1800000);
 
 const allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -48,9 +48,11 @@ app
     res.send(JSON.stringify({url: URL}));
   })
   .get("/load", (req, res) => {
-    const n = name || 'null';
-    const i = IP || 'null';
-    res.send(JSON.stringify({name: n, ip: i}));
+    setTimeout(() => {
+      const n = name || 'null';
+      const i = IP || 'null';
+      res.send(JSON.stringify({name: n, ip: i}));
+    }, 300);
   })
   .listen(port, () => console.log("listening on " + port))
 ;
