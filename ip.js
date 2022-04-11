@@ -90,11 +90,6 @@ app
     const URL = url || "https://rhipsali.github.io/get_ip";
     res.send(JSON.stringify({url: URL}));
   })
-  .get("/load", (req, res) => {
-    const n = name || 'null';
-    const i = IP || 'null';
-    res.send(JSON.stringify({name: n, ip: i}));
-  })
   .listen(port, () => console.log("listening on " + port))
 ;
 
