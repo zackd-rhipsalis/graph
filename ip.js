@@ -1,5 +1,5 @@
-const port = process.env.PORT || 3000;
 const open = require("open");
+const port = process.env.PORT || 3000;
 let name, url, IP;
 const express = require("express");
 
