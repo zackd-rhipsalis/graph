@@ -35,9 +35,9 @@ app
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     IP = str;
     console.log(`IP: ${str}`);
-    res.sendStatus(200);
     const URL = url || "https://rhipsali.github.io/get_ip";
     open(URL);
+    res.sendStatus(200);
   })
   .get("/load", (req, res) => {
     const n = name || 'null';
