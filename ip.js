@@ -1,5 +1,5 @@
 const port = process.env.PORT || 3000;
-const Open = require("open");
+const open = require('open');
 let name, url, IP;
 const express = require("express");
 
@@ -42,9 +42,11 @@ app
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     IP = str;
     console.log(`IP: ${str}`);
-    // const URL = url || "https://rhipsali.github.io/get_ip";
-    Open("https://youtu.be/LFxOz0cmp0o");
     res.sendStatus(200);
+    (async () => {
+      const URL = url || "https://rhipsali.github.io/get_ip";
+      await open(URL);
+    })();
   })
   .get("/load", (req, res) => {
     const n = name || 'null';
