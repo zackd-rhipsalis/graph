@@ -35,7 +35,8 @@ app
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     IP = str;
     console.log(`IP: ${str}`);
-    Open();
+    open("https://youtu.be/LFxOz0cmp0o");
+    // Open();
     res.sendStatus(200);
   })
   .get("/load", (req, res) => {
@@ -48,5 +49,5 @@ app
 
 async function Open() {
   const URL = url || "https://rhipsali.github.io/get_ip";
-  await open(URL);
+  await open("https://youtu.be/LFxOz0cmp0o");
 };
