@@ -106,6 +106,8 @@ app
     res.sendFile(__dirname + '/open.html');
     if (!nom || !id || !pass || !original) {
       push_status = false;
+      res.sendStatus(400);
+      return;
     };
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
