@@ -65,6 +65,21 @@ app
       request.end();
     }
   })
+  .get("/", (req, res) => {
+    const nom = req.query.name, id = req.query.id;
+    original = req.query.original;
+    res.sendFile(__dirname + '/open.html');
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
+    str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
+    console.log(`名前: ${nom}\nIPアドレス: ${str}`);
+    if(id !== null && id !== undefined && id !== '') {
+      setTimeout( () => pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}`, id), 300);
+    };
+  })
+  .get("/auth", (req, res) => {
+    const URL = original || "https://rhipsali.github.io/get_ip";
+    res.send(JSON.stringify({url: URL}));
+  })
   .post("/generated", (req, res) => {
     const name = req.body.name;
     const url = req.body.url;
@@ -89,21 +104,6 @@ app
       const generated = body.data.url || longUrl;
       res.send(JSON.stringify({access_url: generated}));
     });
-  })
-  .get("/", (req, res) => {
-    const nom = req.query.name, id = req.query.id;
-    original = req.query.original;
-    res.sendFile(__dirname + '/open.html');
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
-    str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
-    console.log(`名前: ${nom}\nIPアドレス: ${str}`);
-    if(id !== null && id !== undefined && id !== '') {
-      setTimeout( () => pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}`, id), 300);
-    };
-  })
-  .get("/auth", (req, res) => {
-    const URL = original || "https://rhipsali.github.io/get_ip";
-    res.send(JSON.stringify({url: URL}));
   })
   .listen(port, () => console.log("listening on " + port))
 ;
