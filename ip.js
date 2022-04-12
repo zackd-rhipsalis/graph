@@ -7,13 +7,6 @@ const TOKEN = process.env.LINE_TOKEN;
 const bitly_token = process.env.BITLY_TOKEN;
 let userId, original;
 
-// setInterval(() => {
-//   name = null;
-//   IP = null;
-//   userId = null;
-//   url = null;
-// }, 600000);
-
 const allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -72,7 +65,7 @@ app
       request.end();
     }
   })
-  .post("/", (req, res) => {
+  .post("/generated", (req, res) => {
     const name = req.body.name;
     const url = req.body.url;
     userId = userId || null;
