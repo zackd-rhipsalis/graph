@@ -5,7 +5,7 @@ const express = require("express");
 const port = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_TOKEN;
 const bitly_token = process.env.BITLY_TOKEN;
-let random, original, push_status = false;
+let original, push_status = false;
 
 const allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -31,7 +31,7 @@ app
   .use(express.json())
   .post("/webhook", (req, res) => {
     res.send("HTTP POST request sent to the webhook URL!");
-    random = ~~(Math.random() * (999999 - 100000) + 100000);
+    const random = ~~(Math.random() * (999999 - 100000) + 100000);
     const userId = req.body.events[0].source.userId;
     const ms = req.body.events[0].message.text;
     let text = "";
@@ -107,7 +107,7 @@ app
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     console.log(`名前: ${nom}\nIPアドレス: ${str}`);
-    if(push_status && id && pass && pass === random) {
+    if(push_status && id && pass) {
       setTimeout( () => {
         pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}`, id)
         push_status = false;
