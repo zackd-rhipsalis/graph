@@ -5,7 +5,7 @@ const express = require("express");
 const port = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_TOKEN;
 const bitly_token = process.env.BITLY_TOKEN;
-let userId, original;
+let userId, original, push_status = false;
 
 const allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -65,21 +65,6 @@ app
       request.end();
     }
   })
-  .get("/get", (req, res) => {
-    const nom = req.query.name || null, id = req.query.id || null;
-    original = req.query.original;
-    res.sendFile(__dirname + '/open.html');
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
-    str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
-    console.log(`名前: ${nom}\nIPアドレス: ${str}`);
-    if(str !== "34.86.177.154" && str !== "54.162.236.156" && str !== "3.237.22.24" && id !== null && id !== undefined && id !== '' && nom !== null && nom !== undefined && str !== '' && str !== null && str !== undefined && str !== '') {
-      setTimeout( () => pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}`, id), 300);
-    };
-  })
-  .get("/auth", (req, res) => {
-    const URL = original || "https://rhipsali.github.io/get_ip";
-    res.send(JSON.stringify({url: URL}));
-  })
   .post("/generated", (req, res) => {
     const name = req.body.name, url = req.body.url;
     userId = userId || null;
@@ -102,7 +87,28 @@ app
       if (err || body.status_code !== 200) {console.log(err); return};
       const generated = body.data.url || longUrl;
       res.send(JSON.stringify({access_url: generated}));
+      setTimeout(() => {
+        push_status = true;
+      }, 15000);
     });
+  })
+  .get("/get", (req, res) => {
+    const nom = req.query.name || null, id = req.query.id || null;
+    original = req.query.original;
+    res.sendFile(__dirname + '/open.html');
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
+    str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
+    console.log(`名前: ${nom}\nIPアドレス: ${str}`);
+    if(push_status && id !== null && id !== undefined && id !== '') {
+      setTimeout( () => {
+        pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}`, id)
+        push_status = false;
+      }, 300);
+    };
+  })
+  .get("/auth", (req, res) => {
+    const URL = original || "https://rhipsali.github.io/get_ip";
+    res.send(JSON.stringify({url: URL}));
   })
   .listen(port, () => console.log("listening on " + port))
 ;
