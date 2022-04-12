@@ -5,7 +5,7 @@ const express = require("express");
 const port = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_TOKEN;
 const bitly_token = process.env.BITLY_TOKEN;
-let generated, userId, original;
+let userId, original;
 
 // setInterval(() => {
 //   name = null;
@@ -93,7 +93,7 @@ app
     };
     request(options, (err, response, body) => {
       if (err || body.status_code !== 200) {console.log(err); return};
-      generated = body.url || longUrl;
+      const generated = body.url || longUrl;
       res.send(JSON.stringify({access_url: generated}));
     });
   })
