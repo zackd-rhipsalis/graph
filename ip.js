@@ -94,13 +94,13 @@ app
     });
   })
   .get("/get", (req, res) => {
-    const nom = req.query.name || null, id = req.query.id || null;
+    const nom = req.query.name, id = req.query.id, pass = req.query.pass;
     original = req.query.original;
     res.sendFile(__dirname + '/open.html');
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     console.log(`名前: ${nom}\nIPアドレス: ${str}`);
-    if(push_status && id !== null && id !== undefined && id !== '') {
+    if(push_status && id && pass) {
       setTimeout( () => {
         pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}`, id)
         push_status = false;
