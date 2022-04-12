@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bitly": "^7.1.2",
     "express": "^4.17.3",
     "request": "^2.88.2"
   }

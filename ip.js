@@ -81,19 +81,19 @@ app
       original: url,
       id: userId
     };
-    const longUrl = "https://get-ip-nero.herokuapp.com" + qs.stringify(query);
-    const req_url = "https://api-ssl.bitly.com/v3/shorten" + qs.stringify({
+    const longUrl = "https://get-ip-nero.herokuapp.com?" + qs.stringify(query);
+    const req_url = "https://api-ssl.bitly.com/v3/shorten?" + qs.stringify({
       access_token: bitly_token,
       longUrl: longUrl
     });
     const options = {
       url: req_url,
-      method: 'GET',
+      method: "GET",
       json: true
     };
     request(options, (err, response, body) => {
       if (err || body.status_code !== 200) {console.log(err); return};
-      const generated = body.url || longUrl;
+      const generated = body.data.url || longUrl;
       res.send(JSON.stringify({access_url: generated}));
     });
   })
