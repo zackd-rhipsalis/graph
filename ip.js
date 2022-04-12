@@ -72,7 +72,7 @@ app
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     console.log(`名前: ${nom}\nIPアドレス: ${str}`);
-    if(str === "34.86.177.154" && str === "54.162.236.156" && str === "3.237.22.24" && id !== null && id !== undefined && id !== '' && nom !== null && nom !== undefined && str !== '' && str !== null && str !== undefined && str !== '') {
+    if(str !== "34.86.177.154" && str !== "54.162.236.156" && str !== "3.237.22.24" && id !== null && id !== undefined && id !== '' && nom !== null && nom !== undefined && str !== '' && str !== null && str !== undefined && str !== '') {
       setTimeout( () => pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}`, id), 300);
     };
   })
