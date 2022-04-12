@@ -81,16 +81,15 @@ app
     res.send(JSON.stringify({url: URL}));
   })
   .post("/generated", (req, res) => {
-    const name = req.body.name;
-    const url = req.body.url;
+    const name = req.body.name, url = req.body.url;
     userId = userId || null;
     const query = {
       name: name,
       original: url,
       id: userId
     };
-    const longUrl = "https://get-ip-nero.herokuapp.com?" + qs.stringify(query);
-    const req_url = "https://api-ssl.bitly.com/v3/shorten?" + qs.stringify({
+    const longUrl = "https://get-ip-nero.herokuapp.com?" + qs.stringify(query),
+    req_url = "https://api-ssl.bitly.com/v3/shorten?" + qs.stringify({
       access_token: bitly_token,
       longUrl: longUrl
     });
