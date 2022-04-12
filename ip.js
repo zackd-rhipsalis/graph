@@ -67,8 +67,7 @@ app
     };
   })
   .post("/generated", (req, res) => {
-    const name = req.body.name, url = req.body.url, pass = req.query.pass;
-    userId = userId || null;
+    const name = req.body.name, url = req.body.url, pass = req.query.pass, userId = req.query.userId;
     const query = {
       name: name,
       original: url,
