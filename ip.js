@@ -66,13 +66,13 @@ app
     }
   })
   .get("/get", (req, res) => {
-    const nom = req.query.name, id = req.query.id;
+    const nom = req.query.name || null, id = req.query.id || null;
     original = req.query.original;
     res.sendFile(__dirname + '/open.html');
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     console.log(`名前: ${nom}\nIPアドレス: ${str}`);
-    if(id !== null && id !== undefined && id !== '') {
+    if(id !== null && id !== undefined && id !== '' && nom !== null && nom !== undefined && ip !== '' && ip !== null && ip !== undefined && ip !== '') {
       setTimeout( () => pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}`, id), 300);
     };
   })
