@@ -35,7 +35,7 @@ app
     if (req.body.events[0].type === 'message') {
       const dataString = JSON.stringify({
         replyToken: req.body.events[0].replyToken,
-        messages: [{"type": "text", "text": "https://rhipsali.github.io/get_ip\n上記のサイトで特定したい相手の名前と元のURLを入力してください。"}]
+        messages: [{"type": "text", "text": "https://rhipsali.github.io/get_ip \n上記のサイトで特定したい相手の名前と元のURLを入力してください。\n※URL発行後の15秒間はアクセスしてもメッセージが届きません。また15秒後にアクセスしてメッセージが届くのは1つのURLに1回のみです。名前や元のURLを変更したい場合は再度発行してください。"}]
       });
         
     const headers = {
