@@ -38,7 +38,7 @@ app
     let text = "";
     if (req.body.events[0].type === 'message') {
       if(ms.match(/発行/) || ms.match(/generate/i) || ms.match(/URL/i) || ms.match(/生成/)) {
-        text = "https://rhipsali.github.io/get_ip?pass=" + random + "&userId=" + userId + " \n\n認証コード: " + random + "\n\n上記のサイトで特定したい相手の名前と元のURL、発行された認証コードを入力してください。";
+        text = "下記のサイトで特定したい相手の名前と元のURL、発行された認証コードを入力してください\n\nhttps://rhipsali.github.io/get_ip?pass=" + random + "&userId=" + userId + " \n\n認証コード: " + random;
       } else {
         text = "URLを発行したい場合「URLを発行したい」「URLを生成して」などと話しかけてください";
       };
