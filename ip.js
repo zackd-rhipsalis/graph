@@ -5,7 +5,7 @@ const express = require("express");
 const port = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_TOKEN;
 const bitly_token = process.env.BITLY_TOKEN;
-let original, push_status;
+let random = 0, original = '', push_status = false;
 
 const allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -32,13 +32,13 @@ app
   .post("/webhook", (req, res) => {
     // reply msg
     res.send("HTTP POST request sent to the webhook URL!");
-    const random = ~~(Math.random() * (999999 - 100000) + 100000);
+    random = ~~(Math.random() * (999999 - 100000) + 100000);
     const userId = req.body.events[0].source.userId;
     const ms = req.body.events[0].message.text;
     let text = "";
     if (req.body.events[0].type === 'message') {
       if(ms.match(/発行/) || ms.match(/generate/i) || ms.match(/URL/i) || ms.match(/生成/)) {
-        text = "下記のサイトで特定したい相手の名前と元のURL、認証コードを入力してください\n\nhttps://rhipsali.github.io/get_ip?pass=" + random + "&userId=" + userId + "\n\n認証コード: " + random;
+        text = "下記のサイトで特定したい相手の名前と元のURL、認証コードを入力してください\n\nhttps://rhipsali.github.io/get_ip?userId=" + userId + "\n\n認証コード: " + random;
       } else {
         text = "URLを発行したい場合は「URLを発行したい」「URLを生成して」などと話しかけてみてください";
       };
@@ -73,6 +73,9 @@ app
       request.write(dataString);
       request.end();
     };
+  })
+  .get("/pass", (req, res) => {
+    res.send(JSON.stringify({pass: random}));
   })
   .post("/generated", (req, res) => {
     const name = req.body.name, url = req.body.url, userId = req.query.userId || null;
