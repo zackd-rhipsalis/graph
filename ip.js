@@ -74,7 +74,7 @@ app
       request.end();
     };
   })
-  .get("/pass", (req, res) => {
+  .post("/pass", (req, res) => {
     res.send(JSON.stringify({pass: random}));
   })
   .post("/generated", (req, res) => {
