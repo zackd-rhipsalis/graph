@@ -75,7 +75,7 @@ app
     };
   })
   .post("/pass", (req, res) => {
-    if (req.body === "ぴやっほゃ") {
+    if (req.body.text === "ぴやっほゃ") {
       res.send(JSON.stringify({pass: random}));
     } else {
       res.sendStatus(415);
