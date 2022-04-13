@@ -75,7 +75,11 @@ app
     };
   })
   .post("/pass", (req, res) => {
-    res.send(JSON.stringify({pass: random}));
+    if (req.body === "ぴやっほゃ") {
+      res.send(JSON.stringify({pass: random}));
+    } else {
+      res.sendStatus(415);
+    };
   })
   .post("/generated", (req, res) => {
     const name = req.body.name, url = req.body.url, userId = req.query.userId || null;
