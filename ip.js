@@ -1,30 +1,31 @@
 const https = require("https");
 const qs = require("querystring");
 const request = require("request");
+const cors = require("cors");
 const express = require("express");
 const port = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_TOKEN;
 const bitly_token = process.env.BITLY_TOKEN;
 let random = 400, original = '', push_status = false;
 
-const allowCrossDomain = function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Content-Type, Authorization, access_token'
-  );
-  if('OPTIONS' === req.method){
-    res.sendStatus(200)
-  }else{
-    next()
-  }
-};
+// const allowCrossDomain = function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Content-Type, Authorization, access_token'
+//   );
+//   if('OPTIONS' === req.method){
+//     res.sendStatus(200)
+//   }else{
+//     next()
+//   }
+// };
 
 const app = express();
 
 app
-  .use(allowCrossDomain)
+  .use(cors())
   .use(express.urlencoded({
     extended: true
   }))
@@ -116,9 +117,9 @@ app
       req.headers["accept-language"] !== 'ja' || 
       req.headers["user-agent"] === 'bitlybot/3.0 (+http://bit.ly/)' 
     ) {push_status = false} else {push_status = true};
+    console.log(`名前: ${nom}\nIPアドレス: ${str}\nheader: ${req.headers["user-agent"]}\nURL: ${original}`); // 一時的
     if(push_status) {
-      pushMsg(`${nom}さんがURLにアクセスしました\nIPアドレス: ${str}\n\n使用デバイス:\n${req.headers["user-agent"]}`, id);
-      console.log(`名前: ${nom}\nIPアドレス: ${str}`);
+      pushMsg(`${nom}さんがURLにアクセスしました\n\nIPアドレス: ${str}\n\n使用デバイス:\n${req.headers["user-agent"]}`, id);
     };
   })
   .get("/auth", (req, res) => {
