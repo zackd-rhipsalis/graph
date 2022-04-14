@@ -39,7 +39,7 @@ app
     let text = "";
     if (req.body.events[0].type === 'message') {
       if(ms.match(/発行/) || ms.match(/generate/i) || ms.match(/URL/i) || ms.match(/生成/)) {
-        text = "下記のサイトで特定したい相手の名前と元のURL、認証コードを入力してください\n\nhttps://rhipsali.github.io/get_ip?userId=" + userId + "\n\n認証コード: " + random;
+        text = "下記のサイトで特定したい相手の名前と元のURL、認証コードを入力してください\n※認証コードの有効期限は約30分です。有効期限が切れは場合はもう一度メッセージを送信して下さい。\n\nhttps://rhipsali.github.io/get_ip?userId=" + userId + "\n\n認証コード: " + random;
       } else {
         text = "URLを発行したい場合は「URLを発行したい」「URLを生成して」などと話しかけてみてください";
       };
@@ -114,12 +114,13 @@ app
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     // push msg
     if ( !id || 
-      req.headers["accept-language"] !== 'ja' || 
+      req.headers["accept-language"] !== 'ja' ||
+      req.headers["user-agent"] === "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1" ||
       req.headers["user-agent"] === 'bitlybot/3.0 (+http://bit.ly/)' 
-    ) {push_status = false} else {push_status = true};
-    console.log(`名前: ${nom}\nIPアドレス: ${str}\nheader: ${req.headers["user-agent"]}\nURL: ${original}`); // 一時的
+    ) push_status = false; else push_status = true;
     if(push_status) {
       pushMsg(`${nom}さんがURLにアクセスしました\n\nIPアドレス: ${str}\n\n使用デバイス:\n${req.headers["user-agent"]}`, id);
+      console.log(`名前: ${nom}\nIPアドレス: ${str}`);
     };
   })
   .get("/auth", (req, res) => {
