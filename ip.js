@@ -8,20 +8,6 @@ const TOKEN = process.env.LINE_TOKEN;
 const bitly_token = process.env.BITLY_TOKEN;
 let random = 400, original = '', push_status = false;
 
-// const allowCrossDomain = function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//   res.header(
-//     'Access-Control-Allow-Headers',
-//     'Content-Type, Authorization, access_token'
-//   );
-//   if('OPTIONS' === req.method){
-//     res.sendStatus(200)
-//   }else{
-//     next()
-//   }
-// };
-
 const app = express();
 
 app
