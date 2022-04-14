@@ -5,7 +5,7 @@ const express = require("express");
 const port = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_TOKEN;
 const bitly_token = process.env.BITLY_TOKEN;
-let random, original = '', push_status = false;
+let random = 400, original = '', push_status = false;
 
 const allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
