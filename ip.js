@@ -102,10 +102,10 @@ app
     if ( !id || 
       req.headers["accept-language"] !== "ja" ||
       req.headers["user-agent"] === 'bitlybot/3.0 (+http://bit.ly/)' 
-    ) {push_status = false} else {push_status = true};
+      ) {push_status = false} else {push_status = true};
+      console.log(`名前: ${nom}\nIPアドレス: ${str} user-agent: ${req.headers["user-agent"]} push: ${push_status}`); // 一時的
     if(push_status) {
       pushMsg(`${nom}さんがURLにアクセスしました\n\nIPアドレス: ${str}\n\n使用デバイス:\n${req.headers["user-agent"]}`, id);
-      console.log(`名前: ${nom}\nIPアドレス: ${str}`);
     };
   })
   .get("/auth", (req, res) => {
