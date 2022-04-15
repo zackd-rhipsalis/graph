@@ -72,7 +72,7 @@ app
     if(req.body.text === "plus") {
       num++;
       res.send(JSON.stringify({num: 100}));
-    } else if(req.body.text === "numCheck"){
+    } else if(req.body.text === "num"){
       res.send(JSON.stringify({num: num}));
       if(num >= 10) {
         boo = true;
