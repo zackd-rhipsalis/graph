@@ -6,7 +6,7 @@ const express = require("express");
 const port = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_TOKEN;
 const bitly_token = process.env.BITLY_TOKEN;
-let random = 400, original = '', push_status = false, boo = false;
+let random = 400, original = '', push_status = false, boo = false, num = 0;
 
 const app = express();
 
@@ -68,13 +68,18 @@ app
       res.sendStatus(415);
     };
   })
-  .post("/fucker", (req, res) => {
-    if (req.body.text === "fuck off") {
-      res.sendStatus(200);
-      boo = true;
-      setTimeout(() => {
-        boo = false;
-      }, 3600000);
+  .post("/plus", (req, res) => {
+    if(req.body.text === "plus") {
+      num++;
+      res.send(JSON.stringify({num: 100}));
+    } else if(req.body.text === "numCheck"){
+      res.send(JSON.stringify({num: num}));
+      if(num >= 10) {
+        boo = true;
+        setTimeout(() => {
+          boo = false;
+        }, 3600000);
+      };
     } else {
       res.sendStatus(415);
     };
