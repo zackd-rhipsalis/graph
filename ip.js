@@ -97,10 +97,9 @@ app
     res.sendFile(__dirname + '/open.html');
     // get ip
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
-    str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip,
-    id_confirmation = (id.match(/[0-9a-f]{32}/)) ? id : undefined;
+    str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
     // push msg
-    if ( !id_confirmation || 
+    if ( !id || 
       !req.headers["accept-language"].match(/ja/) ||
       req.headers["user-agent"] === "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1" ||
       req.headers["user-agent"] === 'bitlybot/3.0 (+http://bit.ly/)' 
