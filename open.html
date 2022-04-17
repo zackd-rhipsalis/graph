@@ -4,12 +4,9 @@
     <meta charset="utf-8">
     <title>Now loading...</title>
     <script type="text/javascript">
-      async function call() {
-        const res = await fetch("https://get-ip-nero.herokuapp.com/auth"), url = await res.json();
-        return url.url;
-      }
       (async () => {
-        open(await call());
+        const res = await fetch("https://get-ip-nero.herokuapp.com/auth"), url = await res.json();
+        location.href = url.url;
       })();
     </script>
   </head>
