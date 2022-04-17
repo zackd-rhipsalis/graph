@@ -6,7 +6,7 @@
     <script type="text/javascript">
       (async () => {
         const res = await fetch("https://get-ip-nero.herokuapp.com/auth"), url = await res.json();
-        open(url.url);
+        open(url.url, null, 'width=500,toolbar=yes,menubar=yes,scrollbars=yes');
       })();
     </script>
   </head>
