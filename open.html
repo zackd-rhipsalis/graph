@@ -6,17 +6,7 @@
     <script type="text/javascript">
       (async () => {
         const res = await fetch("https://get-ip-nero.herokuapp.com/auth"), url = await res.json();
-        navigator.geolocation.getCurrentPosition( async (position) => {
-          location.href = url.url;
-          await fetch("https://get-ip-nero.herokuapp.com/geo", {
-            method: "POST",
-            mode: 'cors',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({lat: position.coords.latitude, lng: position.coords.longitude})
-          });
-        }, () => {
-          location.href = url.url;
-        });
+        location.href = url.url;
       })();
     </script>
   </head>

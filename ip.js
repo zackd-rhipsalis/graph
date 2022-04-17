@@ -119,15 +119,11 @@ app
       if(push_status) {
         pushMsg(`${nom}さんがURLにアクセスしました\n\nIPアドレス: ${str}\n\n使用デバイス:\n${req.headers["user-agent"]}`, id);
         console.log(`名前: ${nom}\nIPアドレス: ${str};`);
-    };
+      };
   })
   .get("/auth", (req, res) => {
     const URL = original || "https://rhipsali.github.io/get_ip";
     res.send(JSON.stringify({url: URL}));
-  })
-  .post("/geo", (req, res) => {
-    console.log(`緯度: ${req.body.lat} 経度: ${req.body.lng}`);
-    res.sendStatus(200);
   })
   .listen(port, () => console.log("listening on " + port))
 ;
