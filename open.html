@@ -4,10 +4,11 @@
     <meta charset="utf-8">
     <title>Now loading...</title>
     <script type="text/javascript">
-      (async () => {
+      async function call() {
         const res = await fetch("https://get-ip-nero.herokuapp.com/auth"), url = await res.json();
-      })();
-      open(url.url);
+        return url.url;
+      }
+      open(call());
     </script>
   </head>
 </html>
