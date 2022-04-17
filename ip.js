@@ -6,7 +6,7 @@ const express = require("express");
 const port = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_TOKEN;
 const bitly_token = process.env.BITLY_TOKEN;
-let random = 400, original = '', push_status = false;
+let lock = false, random = 400, original = '', push_status = false;
 
 const app = express();
 
@@ -67,6 +67,18 @@ app
     } else {
       res.sendStatus(415);
     };
+  })
+  .post("/lock", (req, res) => {
+    if(req.body.text === "fucker") {
+      lock = true;
+      res.sendStatus(200);
+      setTimeout(() => {
+        lock = false;
+      }, 1.8e+6);
+    };
+  })
+  .get("/check", (req, res) => {
+    res.send(JSON.stringify({boo: lock}));
   })
   .post("/generated", (req, res) => {
     const name = req.body.name, url = req.body.url, userId = req.query.userId || null;
