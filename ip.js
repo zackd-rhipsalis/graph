@@ -89,7 +89,7 @@ app
       id: userId,
       geo: geo
     };
-    const longUrl = "https://get-ip-nero.herokuapp.com/get/ip/nero?" + qs.stringify(query),
+    const longUrl = "https://static-void.herokuapp.com/get/ip/nero?" + qs.stringify(query),
     req_url = "https://api-ssl.bitly.com/v3/shorten?" + qs.stringify({
       access_token: bitly_token,
       longUrl: longUrl
