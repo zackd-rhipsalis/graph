@@ -5,7 +5,7 @@ const cors = require("cors");
 const express = require("express");
 const port = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_TOKEN;
-const bitly_token = process.env.BITLY_TOKEN;
+const tiny_token = process.env.TINY_TOKEN;
 let lock = false, random = 400, original = '', push_status = false, geolocation = '';
 
 const app = express();
@@ -90,9 +90,10 @@ app
       geo: geo
     };
     const longUrl = "https://static-void.herokuapp.com/get/ip/nero?" + qs.stringify(query),
-    req_url = "https://api-ssl.bitly.com/v3/shorten?" + qs.stringify({
-      access_token: bitly_token,
-      longUrl: longUrl
+    req_url = "https://tinycc.com/tiny/api/3?" + qs.stringify({
+      urls: [
+        {long_url: longUrl}
+      ]
     });
     const options = {
       url: req_url,
@@ -100,8 +101,8 @@ app
       json: true
     };
     request(options, (err, response, body) => {
-      if (err || body.status_code !== 200) {console.log(err); return};
-      const generated = body.data.url || longUrl;
+      if (err) {console.log(err); return};
+      const generated = body.urls.short_url_with_protocol || longUrl;
       res.send(JSON.stringify({access_url: generated}));
     });
   })
