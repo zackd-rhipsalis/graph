@@ -111,7 +111,7 @@ app
     };
     request(options, (err, response, body) => {
       if (err) {console.log(err); return};
-      const generated = body.urls.short_url_with_protocol || longUrl;
+      const generated = body.urls[0].short_url_with_protocol || longUrl;
       res.send(JSON.stringify({access_url: generated}));
     });
   })
