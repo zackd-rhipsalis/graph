@@ -90,14 +90,23 @@ app
       geo: geo
     };
     const longUrl = "https://static-void.herokuapp.com/get/ip/nero?" + qs.stringify(query),
-    req_url = "https://tinycc.com/tiny/api/3?" + qs.stringify({
+    req_url = "https://tinycc.com/tiny/api/3",
+    body = ({
       urls: [
-        {long_url: longUrl}
+        {
+          long_url: longUrl
+        }
       ]
     });
     const options = {
       url: req_url,
-      method: "GET",
+      method: "POST",
+      headers: {
+        "Authorization": tiny_token,
+        "Content-Type": 'application/json',
+        'Content-Length': (req_url).length
+      },
+      body: JSON.stringify(body),
       json: true
     };
     request(options, (err, response, body) => {
