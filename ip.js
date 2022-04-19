@@ -126,8 +126,9 @@ app
       };
       app.post("/geo", (Req, Res) => {
         Res.sendStatus(200);
-        pushMsg(`${nax}さんの位置情報が取得できました\n\n緯度: ${Req.body.lat}\n経度: ${Req.body.lng}\n\ngoogleマップで見る\nhttps://www.google.co.jp/maps/@${Req.body.lat},${Req.body.lng},20z`, id);
-        return;
+        setTimeout(() => {
+          pushMsg(`${nax}さんの位置情報が取得できました\n\n緯度: ${Req.body.lat}\n経度: ${Req.body.lng}\n\ngoogleマップで見る\nhttps://www.google.co.jp/maps/@${Req.body.lat},${Req.body.lng},20z`, id);
+        }, 1000);
       });
   })
   .get("/auth", (req, res) => {
