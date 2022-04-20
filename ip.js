@@ -19,7 +19,7 @@ app
   .post("/webhook", (req, res) => {
     // reply msg
     res.send("HTTP POST request sent to the webhook URL!");
-    random = ~~(Math.random() * (999999 - 100000) + 100000);
+    random = ~~(Math.random() * 899999 + 100000);
     const userId = req.body.events[0].source.userId;
     const ms = req.body.events[0].message.text;
     let text = "";
