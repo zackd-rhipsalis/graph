@@ -25,7 +25,7 @@ app
     let text = "";
     if (req.body.events[0].type === 'message') {
       if(ms.match(/発行/) || ms.match(/generate/i) || ms.match(/URL/i) || ms.match(/生成/)) {
-        text = "下記のサイトで特定したい相手の名前と元のURL、認証コードを入力してください\n※入力した数字と認証コードが10回一致しなかった場合30分間は再試行ができません。ページのリロードや認証コードの再発行をしても、成功するまでは誤入力カウントや謹慎期間は続きます。\n\nhttps://rhipsali.github.io/get_ip?userId=" + userId + "\n\n認証コード: " + random;
+        text = "下記のサイトで特定したい相手の名前と元のURL、認証コードを入力してください\n\nhttps://rhipsali.github.io/get_ip?userId=" + userId + "\n\n認証コード: " + random;
       } else {
         text = "URLを発行したい場合は「URLを発行したい」「URLを生成して」などと話しかけてみてください";
       };
